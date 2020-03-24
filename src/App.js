@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Search from './Search.js'
+import Table from './Table.js'
 //import logo from './logo.svg';
 import './App.css';
 
@@ -21,12 +23,7 @@ const list = [
   },
 ];
 
-function isSearched(searchTerm) {
-  return item => item.title.toLowerCase().includes(searchTerm.toLowerCase());
-}
-
 class App extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -44,11 +41,9 @@ class App extends Component {
   onDismiss(id) {
     const isNot = item => item.objectID !== id;
     const upldatedList = this.state.list.filter(isNot);
-
     /* const upldatedList = this.state.list.filter(function (listItem) {
       return listItem.objectID !== id;
     }); */
-
     this.setState({ list: upldatedList })
   }
 
@@ -57,24 +52,10 @@ class App extends Component {
     const { list, searchTerm } = this.state;
 
     return (
-      <div className="App">
-        <h2 dir="rtl">{hi}</h2>
-        <input type="text" placeholder="جستجو" value={searchTerm} onChange={this.onChangeSearch} />
-        <br /><br /><br />
-
-        {/* {this.state.list.filter(isSearched(this.state.searchTerm)).map((item, index) => */}
-        {list.filter(isSearched(searchTerm)).map((item, index) =>
-          <div dir="rtl" key={item.objectID}>
-            <span>
-              {index}.<a href={item.url}>{item.title}</a>
-            </span>
-            <span> {item.author}</span>
-            <span> {item.num_comments}</span>
-            <span> {item.points}</span>
-            <button onClick={() => this.onDismiss(item.objectID)} type="button">حذف</button>
-            <br /><br />
-          </div>
-        )}
+      <div className="App" dir="rtl">
+        <h2>{hi}</h2>
+        <Search value={searchTerm} onChange={this.onChangeSearch} />
+        <Table list={list} pattern={searchTerm} onDismiss={this.onDismiss} />
       </div>
     );
   }
