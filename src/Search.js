@@ -2,10 +2,10 @@ import React, { Component } from "react";
 
 class Search extends Component {
     render() {
-        const { value, onChange } = this.props;
+        const { value, onChange, children } = this.props;
         return (
             <div>
-                <input type="text" placeholder="جستجو" value={value} onChange={onChange} />
+                <input type="text" placeholder={children} value={value} onChange={onChange} />
                 <br /><br /><br />
             </div>);
     }
