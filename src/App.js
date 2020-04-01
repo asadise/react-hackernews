@@ -4,25 +4,58 @@ import Table from './Table.js'
 //import logo from './logo.svg';
 import './App.css';
 
-const PATH_BASE = 'http://my-json-server.typicode.com/asadise/book-api/db';
-const PATH_SEARCH = '';
-const PARAM_SEARCH = 'query=';
-const DEFAULT_QUERY = '';
+const PATH_BASE = 'http://my-json-server.typicode.com/asadise/book-api';
+const PARAM_SEARCH = '/books';
+const PARAM_PAGE = '_limit=2&_page=';
+
+function isEmpty(obj) {
+  return !obj || Object.keys(obj).length === 0;
+}
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       result: null,
-      searchTerm: DEFAULT_QUERY,
+      searchTerm: '',
+      page: 1,
     }
     this.onDismiss = this.onDismiss.bind(this);
-    this.onChangeSearch = this.onChangeSearch.bind(this);
+    this.onSearchSubmit = this.onSearchSubmit.bind(this);
+    this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
     this.setSearchTopStories = this.setSearchTopStories.bind(this);
+    this.onChangeSearch = this.onChangeSearch.bind(this);
   }
 
-  setSearchTopStories(result) {
-    this.setState({ result });
+  onSearchSubmit(event) {
+    const { searchTerm } = this.state;
+    this.fetchSearchTopStories(searchTerm);
+    event.preventDefault();
+  }
+
+  fetchSearchTopStories(searchTerm = '', page = 1) {
+    const url = (searchTerm) ? `${PATH_BASE}${PARAM_SEARCH}/${searchTerm}` : `${PATH_BASE}${PARAM_SEARCH}?${PARAM_PAGE}` + page;
+    fetch(url)
+      .then(response => response.json())
+      .then(result => this.setSearchTopStories(result, searchTerm, page))
+      .catch(error => error);
+  }
+
+  setSearchTopStories(result, searchTerm, page) {
+    let oldResult = (this.state.result) ? this.state.result : [];
+    if (searchTerm !== '') {
+      oldResult = [];
+      page = -1;
+    }
+    //if result is an object instead of array
+    let resultArray = [];
+    if (!isEmpty(result) && result.length === undefined)
+      resultArray.push(result);
+    else if (!isEmpty(result))
+      resultArray = result;
+
+    const upldatedResult = [...oldResult, ...resultArray];
+    this.setState({ result: upldatedResult, searchTerm: searchTerm, page: page })
   }
 
   onChangeSearch(event) {
@@ -30,16 +63,12 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const searchTerm = this.state;
-    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
-      .then(response => response.json())
-      .then(result => this.setSearchTopStories(result))
-      .catch(error => error);
+    this.fetchSearchTopStories();
   }
 
   onDismiss(id) {
     const isNot = item => item.id !== id;
-    const upldatedResult = this.state.result.books.filter(isNot);
+    const upldatedResult = this.state.result.filter(isNot);
     /* const upldatedList = this.state.list.filter(function (listItem) {
       return listItem.id !== id;
     }); */
@@ -47,19 +76,20 @@ class App extends Component {
       const userNames = { firstname: 'Robin', lastname: 'Wieruch' }; const userAge = { age: 28 };
       const user = { ...userNames, ...userAge };
     */
-    this.setState({ result: { ...this.state.result, books: upldatedResult } })
+    this.setState({ result: { ...this.state.result, upldatedResult } })
   }
+
 
   render() {
     let hi = 'سلام؛ به پروژه «هکر نیوز» در React خوش آمدید!';
-    const { result, searchTerm } = this.state;
+    const { result, searchTerm, page } = this.state;
     return (
       <div className="App">
         <div className="page">
           <div className="intersection">
             <h2>{hi}</h2>
-            <Search value={searchTerm} onChange={this.onChangeSearch} >جستجو...</Search>
-            {result ? <Table list={result.books} pattern={searchTerm} onDismiss={this.onDismiss} /> : null}
+            <Search value={searchTerm} onChange={this.onChangeSearch} onSubmit={this.onSearchSubmit} >جستجو...</Search>
+            {result ? <Table list={result} onDismiss={this.onDismiss} fetchSearchTopStories={this.fetchSearchTopStories} page={page} /> : null}
           </div>
         </div>
       </div>

@@ -2,10 +2,13 @@ import React, { Component } from "react";
 
 class Search extends Component {
     render() {
-        const { value, onChange, children } = this.props;
+        const { value, onSubmit, onChange, children } = this.props;
         return (
             <div>
-                <input type="text" placeholder={children} value={value} onChange={onChange} />
+                <form onSubmit={onSubmit}>
+                    <input type="text" placeholder={children} value={value} onChange={onChange} />
+                    &nbsp;<button type="submit">{children}</button>
+                </form>
                 <br /><br /><br />
             </div>);
     }
