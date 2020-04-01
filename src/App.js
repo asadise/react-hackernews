@@ -19,6 +19,7 @@ class App extends Component {
       result: null,
       searchTerm: '',
       page: 1,
+      error: null,
     }
     this.onDismiss = this.onDismiss.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
@@ -38,7 +39,7 @@ class App extends Component {
     fetch(url)
       .then(response => response.json())
       .then(result => this.setSearchTopStories(result, searchTerm, page))
-      .catch(error => error);
+      .catch(error => { this.setState({ error }) });
   }
 
   setSearchTopStories(result, searchTerm, page) {
@@ -76,13 +77,17 @@ class App extends Component {
       const userNames = { firstname: 'Robin', lastname: 'Wieruch' }; const userAge = { age: 28 };
       const user = { ...userNames, ...userAge };
     */
-    this.setState({ result: { ...this.state.result, upldatedResult } })
+    this.setState({ result: upldatedResult })
   }
 
 
   render() {
     let hi = 'سلام؛ به پروژه «هکر نیوز» در React خوش آمدید!';
-    const { result, searchTerm, page } = this.state;
+    const { result, searchTerm, page, error } = this.state;
+
+    if (error)
+      return <div className="App" style={{ textAlign: "center" }}><h3>خطایی در فراخوانی وب‌سرویس رخ داده است.</h3><span>جزئیات: {error.toString()}</span></div>
+
     return (
       <div className="App">
         <div className="page">
