@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import Search from './Search.js'
-import Table from './Table.js'
-//import logo from './logo.svg';
-import './App.css';
+import Search from '../Search'
+import Table from '../Table'
+import './index.css';
 
 const PATH_BASE = 'http://my-json-server.typicode.com/asadise/book-api';
 const PARAM_SEARCH = '/books';
