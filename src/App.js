@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 import Search from './Search.js'
 import Table from './Table.js'
 //import logo from './logo.svg';
@@ -13,6 +14,7 @@ function isEmpty(obj) {
 }
 
 class App extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -36,10 +38,9 @@ class App extends Component {
 
   fetchSearchTopStories(searchTerm = '', page = 1) {
     const url = (searchTerm) ? `${PATH_BASE}${PARAM_SEARCH}/${searchTerm}` : `${PATH_BASE}${PARAM_SEARCH}?${PARAM_PAGE}` + page;
-    fetch(url)
-      .then(response => response.json())
-      .then(result => this.setSearchTopStories(result, searchTerm, page))
-      .catch(error => { this.setState({ error }) });
+    axios(url)
+      .then(result => this._isMounted && this.setSearchTopStories(result.data, searchTerm, page))
+      .catch(error => this._isMounted && this.setState({ error }));
   }
 
   setSearchTopStories(result, searchTerm, page) {
@@ -64,6 +65,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.fetchSearchTopStories();
   }
 
