@@ -1,0 +1,159 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table has a valid snapshot 1`] = `
+<div>
+  <div
+    className="table"
+  >
+    <div
+      className="table-row"
+    >
+      <span
+        style={
+          Object {
+            "width": "10%",
+          }
+        }
+      >
+        <img
+          alt="cover"
+          src="1.jpg"
+          width="30"
+        />
+      </span>
+      <span
+        style={
+          Object {
+            "width": "30%",
+          }
+        }
+      >
+        0
+        . 
+        <a
+          Using={true}
+          href="https://test-url1.com"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          test1
+        </a>
+      </span>
+      <span
+        style={
+          Object {
+            "width": "20%",
+          }
+        }
+      />
+      <span
+        style={
+          Object {
+            "width": "10%",
+          }
+        }
+      >
+         4
+      </span>
+      <span
+        style={
+          Object {
+            "width": "10%",
+          }
+        }
+      >
+         7
+      </span>
+      <button
+        className="button-inline"
+        onClick={[Function]}
+        type="button"
+      >
+        حذف
+      </button>
+      <br />
+      <br />
+    </div>
+    <div
+      className="table-row"
+    >
+      <span
+        style={
+          Object {
+            "width": "10%",
+          }
+        }
+      >
+        <img
+          alt="cover"
+          src="2.jpg"
+          width="30"
+        />
+      </span>
+      <span
+        style={
+          Object {
+            "width": "30%",
+          }
+        }
+      >
+        1
+        . 
+        <a
+          Using={true}
+          href="https://test-url2.com"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          test2
+        </a>
+      </span>
+      <span
+        style={
+          Object {
+            "width": "20%",
+          }
+        }
+      />
+      <span
+        style={
+          Object {
+            "width": "10%",
+          }
+        }
+      >
+         4
+      </span>
+      <span
+        style={
+          Object {
+            "width": "10%",
+          }
+        }
+      >
+         7
+      </span>
+      <button
+        className="button-inline"
+        onClick={[Function]}
+        type="button"
+      >
+        حذف
+      </button>
+      <br />
+      <br />
+    </div>
+  </div>
+  <div
+    class="interactions"
+  >
+    <button
+      className=""
+      onClick={[Function]}
+      type="button"
+    >
+      بارگزاری موارد بیشتر...
+    </button>
+  </div>
+</div>
+`;

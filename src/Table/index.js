@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 class Table extends Component {
     render() {
-        const { page, list, onDismiss, fetchSearchTopStories } = this.props;
+        const { page, list, onDismiss=null, fetchSearchTopStories=null } = this.props;
         return (
             <div>
                 <div className="table">
