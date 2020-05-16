@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types'
 
 class Table extends Component {
     render() {
-        const { page, list, onDismiss=null, fetchSearchTopStories=null } = this.props;
+        const { page, list, onDismiss, fetchSearchTopStories } = this.props;
         return (
             <div>
                 <div className="table">
@@ -13,7 +14,7 @@ class Table extends Component {
                                 <img width="30" alt="cover" src={item.image} />
                             </span>
                             <span style={{ width: '30%' }}>
-                                {index}. <a Using target="_blank" rel="noopener noreferrer" href={item.url}>{item.title.split("-")[0]}</a>
+                                {index}. <a target="_blank" rel="noopener noreferrer" href={item.url}>{item.title.split("-")[0]}</a>
                             </span>
                             <span style={{ width: '20%' }}>{item.title.split("-")[1]}</span>
                             <span style={{ width: '10%' }}> 4</span>
@@ -23,7 +24,7 @@ class Table extends Component {
                         </div>
                     )}
                 </div>
-                <div class="interactions">
+                <div className="interactions">
                     {(page === -1) ? <Button onClick={() => window.location.reload()}>بازگشت</Button> :
                         <Button onClick={() => fetchSearchTopStories('', page + 1)}>بارگزاری موارد بیشتر...</Button>}
                 </div>
@@ -38,7 +39,25 @@ class Table extends Component {
         return (<button onClick={onClick} className={className} type="button">{children}</button>);
     }
 }*/
-const Button = ({ onClick, className = '', children }) => <button onClick={onClick} className={className} type="button">{children}</button>;
+const Button = ({ onClick, className = '', children }) => <button onClick={onClick} className={className} type="button">{children}</button>
+Button.propTypes = {
+    onClick: PropTypes.func,
+    className: PropTypes.string,
+    children: PropTypes.node.isRequired,
+};
+Button.defaultProps = {
+    className: ''
+};
 
-
+Table.propTypes = {
+    //list: PropsTypes.array.isRequired,
+    list: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            title: PropTypes.string,
+            image: PropTypes.string,
+            url: PropTypes.string,
+        })).isRequired,
+    onDismiss: PropTypes.func,
+};
 export default Table;
