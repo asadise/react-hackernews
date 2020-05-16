@@ -2,9 +2,8 @@ import React, { Component } from "react";
 
 class Search extends Component {
     componentDidMount() {
-        if (this.input) {
+        if (this.input)
             this.input.focus();
-        }
     }
 
     render() {

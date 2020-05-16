@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import Search from '../Search'
 import Table from '../Table'
+import LoadingImage from '../resource/loading.gif'
 import './index.css';
 
 const PATH_BASE = 'http://my-json-server.typicode.com/asadise/book-api';
@@ -21,6 +22,7 @@ class App extends Component {
       searchTerm: '',
       page: 1,
       error: null,
+      isLoading: false,
     }
     this.onDismiss = this.onDismiss.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
@@ -36,6 +38,7 @@ class App extends Component {
   }
 
   fetchSearchTopStories(searchTerm = '', page = 1) {
+    this.setState({ isLoading: true });
     const url = (searchTerm) ? `${PATH_BASE}${PARAM_SEARCH}/${searchTerm}` : `${PATH_BASE}${PARAM_SEARCH}?${PARAM_PAGE}` + page;
     axios(url)
       .then(result => this._isMounted && this.setSearchTopStories(result.data, searchTerm, page))
@@ -56,7 +59,7 @@ class App extends Component {
       resultArray = result;
 
     const upldatedResult = [...oldResult, ...resultArray];
-    this.setState({ result: upldatedResult, searchTerm: searchTerm, page: page })
+    this.setState({ result: upldatedResult, searchTerm: searchTerm, page: page, isLoading: false })
   }
 
   onChangeSearch(event) {
@@ -81,10 +84,9 @@ class App extends Component {
     this.setState({ result: upldatedResult })
   }
 
-
   render() {
     let hi = 'سلام؛ به پروژه «هکر نیوز» در React خوش آمدید!';
-    const { result, searchTerm, page, error } = this.state;
+    const { result, searchTerm, page, error, isLoading } = this.state;
 
     if (error)
       return <div className="App" style={{ textAlign: "center" }}><h3>خطایی در فراخوانی وب‌سرویس رخ داده است.</h3><span>جزئیات: {error.toString()}</span></div>
@@ -95,12 +97,18 @@ class App extends Component {
           <div className="intersection">
             <h2>{hi}</h2>
             <Search value={searchTerm} onChange={this.onChangeSearch} onSubmit={this.onSearchSubmit} >جستجو...</Search>
-            {result ? <Table list={result} onDismiss={this.onDismiss} fetchSearchTopStories={this.fetchSearchTopStories} page={page} /> : null}
+            {result ? <Table list={result} onDismiss={this.onDismiss} fetchSearchTopStories={this.fetchSearchTopStories} page={page} isLoading={isLoading} /> : null}
+            {isLoading ? <Loading /> : ""}
           </div>
         </div>
       </div>
     );
   }
 }
+
+const Loading = () =>
+  <div style={{ textAlign: "center" }}>
+    <img src={LoadingImage} alt="در حال بارگزاری؛ لطفا صبر کنید..." />
+  </div>
 
 export default App;
