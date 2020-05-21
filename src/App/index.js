@@ -97,7 +97,7 @@ class App extends Component {
           <div className="intersection">
             <h2>{hi}</h2>
             <Search value={searchTerm} onChange={this.onChangeSearch} onSubmit={this.onSearchSubmit} >جستجو...</Search>
-            {result ? <Table list={result} onDismiss={this.onDismiss} fetchSearchTopStories={this.fetchSearchTopStories} page={page} isLoading={isLoading} /> : null}
+            {result ? <Table list={result} onDismiss={this.onDismiss} fetchSearchTopStories={this.fetchSearchTopStories} page={page} /> : null}
             {isLoading ? <Loading /> : ""}
           </div>
         </div>

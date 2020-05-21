@@ -40,6 +40,11 @@ class Table extends Component {
     }
 }*/
 const Button = ({ onClick, className = '', children }) => <button onClick={onClick} className={className} type="button">{children}</button>
+
+/*HOC in React
+const withLoadng = (Component) => (isLoading, ...rest) => isLoading ? <Component {...rest} >بارگزاری موارد بیشتر...</Component> : <Loading /> 
+const ButtonWithLoadng = withLoadng(Button)*/
+
 Button.propTypes = {
     onClick: PropTypes.func,
     className: PropTypes.string,
@@ -60,4 +65,5 @@ Table.propTypes = {
         })).isRequired,
     onDismiss: PropTypes.func,
 };
+
 export default Table;
